@@ -99,6 +99,7 @@ async function run() {
                     quantity: toy.quantity,
                     subcategory: toy.subcategory,
                     description: toy.description,
+                    rating: toy.rating
                 }
             }
             const result = await toyCollection.updateOne(filter, updateToy)
