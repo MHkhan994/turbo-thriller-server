@@ -41,7 +41,6 @@ async function run() {
 
         app.get('/myToys/:email', async (req, res) => {
             const email = req.params.email;
-            console.log(email);
             const query = { seller_email: email }
             const result = await toyCollection.find(query).toArray()
             res.send(result)
@@ -50,6 +49,13 @@ async function run() {
         app.post('/toys', async (req, res) => {
             const toy = req.body
             const result = await toyCollection.insertOne(toy)
+            res.send(result)
+        })
+
+        app.delete('/myToys/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: new ObjectId(id) }
+            const result = await toyCollection.deleteOne(query)
             res.send(result)
         })
 
