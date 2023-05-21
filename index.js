@@ -23,7 +23,7 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        // await client.connect();
 
         const toyCollection = client.db('turboThriller').collection('toys')
 
@@ -67,8 +67,18 @@ async function run() {
         app.get('/myToys/:email', async (req, res) => {
             const email = req.params.email;
             const query = { seller_email: email }
-            const result = await toyCollection.find(query).toArray()
-            res.send(result)
+            if (req.query.order === 'accending') {
+                const result = await toyCollection.find(query).sort({ price: 1 }).toArray()
+                res.send(result)
+            }
+            else if (req.query.order === 'deccending') {
+                const result = await toyCollection.find(query).sort({ price: -1 }).toArray()
+                res.send(result)
+            }
+            else {
+                const result = await toyCollection.find(query).toArray()
+                res.send(result)
+            }
         })
 
         // adds a new toy to database
